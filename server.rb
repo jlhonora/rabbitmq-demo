@@ -7,10 +7,10 @@ def get_timestamp
   "#{Time.now.strftime('%H:%M:%S')}"
 end
 
-conn = Bunny.new
+conn = Bunny.new(hostname: "amqp://guest:guest@localhost:5672/")
 conn.start
 
-queue_name = ENV['RABBIT_QUEUE'] || 'default_queue'
+queue_name = ENV['RABBITMQ_QUEUE'] || 'default_queue'
 
 ch   = conn.create_channel
 q    = ch.queue(queue_name)
