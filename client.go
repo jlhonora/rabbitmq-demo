@@ -39,13 +39,14 @@ func main() {
 	defer ch.Close()
 
 	queue_name := getQueueName()
+	args := amqp.Table{"x-message-ttl": int32(5000)}
 	q, err := ch.QueueDeclare(
 		queue_name, // name
-		false,      // durable
-		false,      // delete when usused
+		true,       // durable
+		false,      // auto_delete
 		false,      // exclusive
 		false,      // no-wait
-		nil,        // arguments
+		args,       // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 

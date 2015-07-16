@@ -20,7 +20,15 @@ promise = client.connect()
 client.wait(promise)
 
 queue_name = get_queue_name()
-promise = client.queue_declare(queue=queue_name)
+args = {}
+args['x-message-ttl'] = 5000
+promise = client.queue_declare(
+        queue=queue_name,
+        auto_delete=False,
+        exclusive=False,
+        durable=True,
+        arguments=args
+        )
 client.wait(promise)
 
 print "  [*] Waiting for messages in %s. Press CTRL+C to quit." % queue_name
